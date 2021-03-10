@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint , request ,jsonify
+from models import Air, AirSchema
 
 country = Blueprint("country",__name__,static_folder="static",template_folder="templates")
 

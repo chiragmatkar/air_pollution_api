@@ -14,7 +14,7 @@ from matplotlib import pyplot as plt
 print ("Switched to:",matplotlib.get_backend())
 import pandas as pd
 import matplotlib.dates as mdates
-from matplotlib.dates import MO, TU, WE, TH, FR, SA, SUPOLLUTANTS_UNITS
+from matplotlib.dates import MO, TU, WE, TH, FR, SA
 from flask import Response, redirect, request, url_for
 print ("P1")
 #----------

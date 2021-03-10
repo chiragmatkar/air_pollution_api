@@ -1,4 +1,5 @@
-
+from models import Air, AirSchema
+from datetime import date, datetime, timedelta
 
 def timeseries_data(zipcode):
     graphs = timeseries_graphs(zipcode)

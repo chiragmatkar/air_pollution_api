@@ -1,6 +1,9 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, request ,jsonify
 from config import app
 from flask import send_file, send_from_directory, safe_join, abort
+from models import Air, AirSchema
+
+
 download = Blueprint("download",__name__,static_folder="static",template_folder="templates")
 
 @download.route('/api/air/zipcode/<zipcode>/stanford/download', methods=['GET'])

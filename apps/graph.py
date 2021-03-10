@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 from config import app
 from flask import send_file, send_from_directory, safe_join, abort
 graph = Blueprint("graph",__name__,static_folder="static",template_folder="templates")
-
+from vars import *
 
 
 @graph.route('/api/air/zipcode/<zipcode>/timeseries/graphs', methods=['GET'])
