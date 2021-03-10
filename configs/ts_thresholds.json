@@ -1,0 +1,101 @@
+{
+  "thresholds": {
+    "tVOC": {
+      "name": "tVOC",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 220
+        },
+        {
+          "color": "yellow",
+          "value": 660
+        },
+        {
+          "color": "red",
+          "value": 2000
+        }
+      ]
+    },
+    "pm25": {
+      "name": "pm25",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 12
+        },
+        {
+          "color": "yellow",
+          "value": 15
+        },
+        {
+          "color": "red",
+          "value": 35
+        }
+      ]
+    },
+    "pm10": {
+      "name": "pm10",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 55
+        },
+        {
+          "color": "yellow",
+          "value": 255
+        },
+        {
+          "color": "red",
+          "value": 425
+        }
+      ]
+    },
+    "co2": {
+      "name": "co2",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 1000
+        },
+        {
+          "color": "yellow",
+          "value": 2000
+        },
+        {
+          "color": "red",
+          "value": 5000
+        }
+      ]
+    },
+    "o3": {
+      "name": "o3",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 0.08
+        },
+        {
+          "color": "yellow",
+          "value": 0.1
+        },
+        {
+          "color": "red",
+          "value": 0.2
+        }
+      ]
+    },
+    "temp": {
+      "name": "temp",
+      "lines": []
+    },
+    "humidity": {
+      "name": "humidity",
+      "lines": []
+    },
+    "ng": {
+      "name": "ng",
+      "lines": []
+    }
+  }
+}

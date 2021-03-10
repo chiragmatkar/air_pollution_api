@@ -1,0 +1,88 @@
+{
+  "thresholds": {
+    "tVOC": {
+      "name": "tVOC",
+      "values": {
+      "good": 
+        {
+          "low": 0,
+          "high": 220
+        },
+	"average":
+        {
+          "low": 221,
+          "high": 660
+        },
+	"poor":
+        {
+          "low": 661,
+          "high": 2000
+        },
+	"bad":
+        {
+          "low": 2001,
+          "high": 5000
+        }
+      ]
+    },
+    "pm25": {
+      "name": "pm25",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 12
+        },
+        {
+          "color": "yellow",
+          "value": 15
+        },
+        {
+          "color": "red",
+          "value": 35
+        }
+      ]
+    },
+    "co2": {
+      "name": "co2",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 1000
+        },
+        {
+          "color": "yellow",
+          "value": 2000
+        },
+        {
+          "color": "red",
+          "value": 5000
+        }
+      ]
+    },
+    "o3": {
+      "name": "o3",
+      "lines": [
+        {
+          "color": "blue",
+          "value": 3
+        },
+        {
+          "color": "yellow",
+          "value": 8
+        },
+        {
+          "color": "red",
+          "value": 10
+        }
+      ]
+    },
+    "temp": {
+      "name": "temp",
+      "lines": []
+    },
+    "humidity": {
+      "name": "humidity",
+      "lines": []
+    }
+  }
+}

@@ -1,0 +1,13 @@
+flask
+pandas
+numpy
+matplotlib
+requests
+connexion
+Flask-SQLAlchemy
+config
+flask_marshmallow
+flask_cors
+Flask-Script
+Flask-Migrate
+marshmallow-sqlalchemy
