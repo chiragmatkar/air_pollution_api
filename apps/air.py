@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template ,request
 from functions import calculate_on_ref_Ro
 
 air = Blueprint("air",__name__,static_folder="static",template_folder="templates")
-
-
 
 
 @air.route('/api/air', methods=['GET', 'POST'])

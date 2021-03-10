@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, request , Blueprint
-from apps import air ,atmosome,country,date,download,graph,timeseries_csv,zipcode
+from apps import air ,atmosome,country,date_air,download,graph,timeseries_csv,zipcode
+
 import csv
 import numpy as np
 from models import Air, AirSchema
@@ -28,7 +29,7 @@ app = Flask(__name__)
 app.register_blueprint(air)
 app.register_blueprint(atmosome)
 app.register_blueprint(country)
-app.register_blueprint(date)
+app.register_blueprint(date_air)
 app.register_blueprint(download)
 app.register_blueprint(graph)
 app.register_blueprint(timeseries_csv)

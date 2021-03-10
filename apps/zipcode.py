@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template , request , jsonify
 from config import app
 from flask import send_file, send_from_directory, safe_join, abort
+from models import Air, AirSchema
+
 zipcode = Blueprint("zipcode",__name__,static_folder="static",template_folder="templates")
 
 
@@ -21,7 +23,6 @@ def zipcodes_data():
     all_rows = ['95014']
     return jsonify(all_rows), 200
     # return jsonify({'zipcodes': all_rows}), 200
-
 
 
 
