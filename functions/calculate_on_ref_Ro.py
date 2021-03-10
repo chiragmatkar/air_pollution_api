@@ -1,8 +1,6 @@
 import datetime
 
 
-
-
 def calculate_on_ref_Ro(sensor_raw, sensor_RL, sensor_ref_Ro, sensor_curve):
     sensor_rs = MQResistanceCalculation(sensor_raw, sensor_RL)
     sensor_rs_by_ro = (float)(sensor_rs) / sensor_ref_Ro

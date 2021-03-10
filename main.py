@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, request , Blueprint
+from apps import air ,atmosome,country,date,download,graph,timeseries_csv,zipcode
 import csv
 import numpy as np
 from models import Air, AirSchema
@@ -20,12 +21,19 @@ from flask import Response, redirect, request, url_for
 
 print("P1")
 # ----------
-
 # app = connexion.FlaskApp(__name__, specification_dir='./')  # or e.g. Flask(__name__, template_folder='../otherdir')
-
 from config import app
 
-# app = Flask(__name__)
+app = Flask(__name__)
+app.register_blueprint(air)
+app.register_blueprint(atmosome)
+app.register_blueprint(country)
+app.register_blueprint(date)
+app.register_blueprint(download)
+app.register_blueprint(graph)
+app.register_blueprint(timeseries_csv)
+app.register_blueprint(zipcode)
+app.run(host="0.0.0.0", port=8080)
 # Talisman(app)
 
 # Read the swagger.yml file to configure the endpoints
@@ -202,8 +210,4 @@ def hello_world():
 
 
 
-if __name__ == "__main__":
-    print("$$$$$$$$$$$$$$$$$")
-    # ß app.run(host="0.0.0.0", port=8080, ssl_context=('/etc/letsencrypt/live/atm-rest.com/fullchain.pem', '/etc/letsencrypt/live/atm-rest.com/privkey.pem'))
-    app.run(host="0.0.0.0", port=8080)
 
