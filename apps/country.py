@@ -4,7 +4,6 @@ country = Blueprint("country",__name__,static_folder="static",template_folder="t
 
 
 
-
 @country.route('/api/air/country/<country>', methods=['GET'])
 def data_by_country(country):
     if request.method == 'GET':
