@@ -1,7 +1,90 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from config import app
-from flask import send_file, send_from_directory, safe_join, abort
+from models import Air
+from datetime import datetime, timedelta
+import json
+import pandas as pd
+from matplotlib import pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib.dates import MO, FR
+import time
+
+TIMESERIES_QUARTER = 60
+TS_THRESHOLDS_JSON = "ts_thresholds.json"
+ABBR_PM25 = "PM2.5"
+UNITS_PM25 = "ug/m3"
+ABBR_TVOC = "VOC"
+UNITS_TVOC = "ppb"
+NAME_CO2 = "Carbon Dioxide"
+ABBR_CO2 = "CO2"
+UNITS_CO2 = "ppm"
+ABBR_O3 = "O3"
+UNITS_O3 = "ppm"
+ABBR_CO = "CO"
+UNITS_CO = "ppm"
+ABBR_TEMP = "Temperature"
+UNITS_TEMP = "F"
+ABBR_HUMIDITY = "Humidity"
+UNITS_HUMIDITY = "%"
+
+
 graph = Blueprint("graph",__name__,static_folder="static",template_folder="templates")
+
+def plot_timeseries(data, name, unit, zipcode, current_time, lines_data=None):
+    # plot data
+    print ("^%^%^%^%^%^%^%^%^%^%")
+    print ("ENTER plot_timeseries")
+    print ("^%^%^%^%^%^%^%^%^%^%")
+
+    fig, ax = plt.subplots(figsize=(25,7))
+
+    num_of_data_points = data[data.columns[0]].count()
+    print ("num_of_data_points")
+    print (num_of_data_points)
+
+    data.plot(ax=ax)
+    ax.grid(True, which='both')
+
+    # set margin, labels and font size
+    y_label = "{} {}".format(name, unit)
+    plt.margins(x=0)
+    plt.xlabel('Timestamps', size=24)
+    plt.ylabel(y_label, size=24)
+    plt.xticks(fontsize=18)
+    plt.yticks(fontsize=18)
+
+    # set ticks every Mon and Fri
+    #loc = mdates.WeekdayLocator(byweekday=(MO,FR))
+
+    if num_of_data_points < 1000:
+        loc = mdates.WeekdayLocator(byweekday=(MO,FR))
+    elif num_of_data_points < 2000:
+        loc = mdates.WeekdayLocator(byweekday=(MO))
+    elif num_of_data_points < 3000:
+        loc = mdates.WeekdayLocator(byweekday=MO, interval=2)
+    else:
+        loc = mdates.WeekdayLocator(byweekday=MO, interval=3)
+    print ("LOC LOC LOC")
+    print (loc)
+    print ("LOC LOC LOC")
+    ax.xaxis.set_major_locator(loc)
+
+    # plot the threshold value lines
+    for line_data in lines_data:
+        plt.axhline(line_data["value"], color=line_data["color"])
+
+    # save plot
+    file_name = "{}_{}_{}.png".format(name, zipcode, current_time)
+    file_name_path = "{}/{}".format(app.config["CLIENT_GRAPHS"], file_name)
+    plt.savefig(file_name_path)
+
+    # graph URL
+    graph_url = "{}/{}".format(request.url, file_name)
+    print ("^%^%^%^%^%^%^%^%^%^%")
+    print ("Exiting plot_timeseries")
+    print (graph_url)
+    print ("^%^%^%^%^%^%^%^%^%^%")
+    return graph_url
 
 
 
@@ -148,165 +231,4 @@ def timeseries_graphs(zipcode, num_of_days=TIMESERIES_QUARTER):
     }
 
     return data
-
-
-
-
-@app.route('/api/air/zipcode/<zipcode>/timeseries/graphs/smoke', methods=['GET'])
-def timeseries_graph_smoke(zipcode, num_of_days=TIMESERIES_QUARTER):
-    # Read configs_dir/thresholds.json
-    ts_config = "{}/{}".format(app.config["CLIENT_CONFIGS"], TS_THRESHOLDS_JSON)
-    with open(ts_config, "r") as thresholds_file:
-        # Converting JSON encoded data into Python dictionary
-        thresholds_data = json.load(thresholds_file)
-        thresholds = thresholds_data["thresholds"]
-
-    cur_date = datetime.now()
-    cur_time = time.time()
-    # GAYATRI
-    past_time = cur_date - timedelta(days=num_of_days)
-    # past_time = cur_date - timedelta(days=num_of_days)
-
-    t1 = time.time()
-
-    airdata = Air.query.with_entities(
-        Air.timestamp,
-        Air.mq2_smoke_ppm
-    ).filter(Air.zipcode == zipcode, Air.timestamp >= past_time).all()
-
-    t2 = time.time()
-    print("%% AIR DATA FOR TIMESERIES  HERE ENTER %%")
-    print("airdata: {}".format(airdata))
-    print("%% AIR DATA FOR TIMESERIES EXIT if NONE %%")
-
-    if not airdata:
-        return {}
-
-    print("%%%%%%%%%%%%%% TS %%%%%%%%%%%")
-    # print (t2-t1)
-    # print ("airData[0]: ")
-    # print (airdata[0])
-    # print (airdata[1])
-    # print (airdata[2])
-    # print (airdata[3])
-    print("%%%%%%%%%%%%%% END TS %%%%%%%%%%%")
-
-    t1 = time.time()
-    air_zip = zip(*airdata)
-
-    tmp_air_list = list(air_zip)
-    air_ts = tmp_air_list[:]
-
-    print(type(air_ts))
-    print(air_ts)
-    t2 = time.time()
-    print("%%%%%%%%%%%%%% TRANSPOSE %%%%%%%%%%%")
-    print(t2 - t1)
-    print(len(air_ts))
-    print("%%%%%%%%%%%%%% END TRANSPOSE %%%%%%%%%%%")
-
-    t1 = time.time()
-
-    l_time = air_ts[0]
-
-    # print ("------- pm25 ------------")
-    l_pm10 = air_ts[1]
-    d_pm10 = {"timestamp": l_time, "PM10": l_pm10}
-    data_pm10 = pd.DataFrame(d_pm10)
-    data_pm10["timestamp"] = pd.to_datetime(data_pm10["timestamp"])
-    data_pm10.set_index('timestamp', inplace=True)
-    thresholds_pm10 = thresholds["pm10"]["lines"]
-    graph_pm10 = plot_timeseries(data_pm10, ABBR_SMOKE, UNITS_SMOKE, zipcode,
-                                 cur_time, thresholds_pm10)
-
-    t2 = time.time()
-    print("^^^^^^^^^^ DATA READINESS ^^^^^^^^^")
-    print(t2 - t1)
-    print("^^^^^^^^^^ END DATA READINESS ^^^^^^^^^")
-
-    data = {
-        "ts_pm10": graph_pm10
-    }
-
-    return data
-
-
-@app.route('/api/air/zipcode/<zipcode>/timeseries/graphs/ng', methods=['GET'])
-def timeseries_graph_ng(zipcode, num_of_days=TIMESERIES_QUARTER):
-    # Read configs_dir/thresholds.json
-    ts_config = "{}/{}".format(app.config["CLIENT_CONFIGS"], TS_THRESHOLDS_JSON)
-    with open(ts_config, "r") as thresholds_file:
-        # Converting JSON encoded data into Python dictionary
-        thresholds_data = json.load(thresholds_file)
-        thresholds = thresholds_data["thresholds"]
-
-    cur_date = datetime.now()
-    cur_time = time.time()
-    # GAYATRI
-    past_time = cur_date - timedelta(days=num_of_days)
-    # past_time = cur_date - timedelta(days=num_of_days)
-
-    t1 = time.time()
-
-    airdata = Air.query.with_entities(
-        Air.timestamp,
-        Air.mq4_ng_ppm
-    ).filter(Air.zipcode == zipcode, Air.timestamp >= past_time).all()
-
-    t2 = time.time()
-    print("%% AIR DATA FOR TIMESERIES  HERE ENTER %%")
-    print("airdata: {}".format(airdata))
-    print("%% AIR DATA FOR TIMESERIES EXIT if NONE %%")
-
-    if not airdata:
-        return {}
-
-    print("%%%%%%%%%%%%%% TS %%%%%%%%%%%")
-    # print (t2-t1)
-    # print ("airData[0]: ")
-    # print (airdata[0])
-    # print (airdata[1])
-    # print (airdata[2])
-    # print (airdata[3])
-    print("%%%%%%%%%%%%%% END TS %%%%%%%%%%%")
-
-    t1 = time.time()
-    air_zip = zip(*airdata)
-
-    tmp_air_list = list(air_zip)
-    air_ts = tmp_air_list[:]
-
-    print(type(air_ts))
-    print(air_ts)
-    t2 = time.time()
-    print("%%%%%%%%%%%%%% TRANSPOSE %%%%%%%%%%%")
-    print(t2 - t1)
-    print(len(air_ts))
-    print("%%%%%%%%%%%%%% END TRANSPOSE %%%%%%%%%%%")
-
-    t1 = time.time()
-
-    l_time = air_ts[0]
-
-    # print ("------- pm25 ------------")
-    l_ng = air_ts[1]
-    d_ng = {"timestamp": l_time, "NG": l_ng}
-    data_ng = pd.DataFrame(d_ng)
-    data_ng["timestamp"] = pd.to_datetime(data_ng["timestamp"])
-    data_ng.set_index('timestamp', inplace=True)
-    thresholds_ng = thresholds["ng"]["lines"]
-    graph_ng = plot_timeseries(data_ng, ABBR_NG, UNITS_NG, zipcode,
-                               cur_time, thresholds_ng)
-
-    t2 = time.time()
-    print("^^^^^^^^^^ DATA READINESS ^^^^^^^^^")
-    print(t2 - t1)
-    print("^^^^^^^^^^ END DATA READINESS ^^^^^^^^^")
-
-    data = {
-        "ts_ng": graph_ng
-    }
-
-    return data
-
 
