@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template
-from functions import calculate_on_ref_Ro
+from flask import Blueprint, send_from_directory ,jsonify , abort
+from config import app
+from functions.graph_functions import hourly_data,cumulative_exposure_data,timeseries_data
 
 atmosome = Blueprint("atmosome",__name__,static_folder="static",template_folder="templates")
 
@@ -7,8 +8,7 @@ atmosome = Blueprint("atmosome",__name__,static_folder="static",template_folder=
 @atmosome.route('/api/air/zipcode/<zipcode>/atmosome/summary', methods=['GET'])
 def atmosome_data_summary(zipcode):
     data = hourly_data(zipcode)
-    # data = hourly_data(zipcode, 720)
-
+    # data = hourly_data(zipcode, 720)s
     return jsonify(data), 200
 
 

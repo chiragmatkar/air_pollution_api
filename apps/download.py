@@ -1,8 +1,12 @@
-from flask import abort, jsonify, request, send_from_directory
-from models import Air
+from flask import Blueprint, request ,jsonify
 from config import app
+from flask import send_file, send_from_directory, safe_join, abort
+from models import Air, AirSchema
 
-@app.route('/api/air/zipcode/<zipcode>/stanford/download', methods=['GET'])
+
+download = Blueprint("download",__name__,static_folder="static",template_folder="templates")
+
+@download.route('/api/air/zipcode/<zipcode>/stanford/download', methods=['GET'])
 def data_by_zipcode_download_csv(zipcode):
     if request.method == 'GET':
         airs = Air.query.filter(Air.zipcode == zipcode).all()
@@ -55,7 +59,7 @@ def data_by_zipcode_download_csv(zipcode):
 
 
 # https://atm-rest.com/api/air/zipcode/95014/timeseries/csv/downloads/2020-12-08_04:13:49.978951.csv
-@app.route('/api/air/<zipcode>/timeseries/csv/downloads/<filename>', methods=['GET'])
+@download.route('/api/air/<zipcode>/timeseries/csv/downloads/<filename>', methods=['GET'])
 def data_by_csv_file(filename):
     try:
         return send_from_directory(app.config["CLIENT_CSVS"],

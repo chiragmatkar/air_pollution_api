@@ -1,17 +1,11 @@
-from flask import Blueprint, jsonify, request, render_template
-from models import Air, AirSchema
+from flask import Blueprint, render_template
 from config import app
+from flask import request , jsonify
+from models import Air, AirSchema
+from functions.calculate_on_ref_Ro import parse_date
+
 date = Blueprint("date",__name__,static_folder="static",template_folder="templates")
 
-
-def parse_date(date_str):
-    yyyy_mm_dd = date_str.split('-')
-    yyyy = int(yyyy_mm_dd[0])
-    mm = int(yyyy_mm_dd[1])
-    dd = int(yyyy_mm_dd[2])
-    date_obj = date(year=yyyy,month=mm,day=dd)
-
-    return date_obj
 
 
 @app.route('/api/air/start_date/<start_date>', methods=['GET'])
