@@ -1,3 +1,8 @@
+from flask import request
+from matplotlib import pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib.dates import MO, TU, WE, TH, FR, SA
+from config import app
 
 
 def plot_timeseries(data, name, unit, zipcode, current_time, lines_data=None):
