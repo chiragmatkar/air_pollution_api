@@ -17,7 +17,7 @@ app.register_blueprint(download.download)
 app.register_blueprint(graph.graph)
 app.register_blueprint(timeseries_csv.timeseries_csv)
 app.register_blueprint(zipcode.zipcode)
-app.run(host="0.0.0.0", port=8080)
+
 # Talisman(app)
 
 # Read the swagger.yml file to configure the endpoints
@@ -38,9 +38,8 @@ def before_request():
 @app.route('/', methods=['GET'])
 def hello_world():
     print("I DID MAKE IT HERE")
-    return 'This is the Air Monitoring REST API site!!!', 200
+    return '<h1>This is the Air Monitoring REST API site!!!</h1>', 200
 
 
-
-
-
+if __name__== '__main__':
+    app.run(host="0.0.0.0", port=8080)

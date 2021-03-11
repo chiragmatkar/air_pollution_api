@@ -570,12 +570,12 @@ def csv_timeseries(zipcode, num_of_days=TIMESERIES_QUARTER):
     print (csv_url)
     print ("%%%%%%%%%%%%%% END DF %%%%%%%%%%%")
 
-    '''
+
     message = ("Please download the file in csv format by pasting this link in the browser: "
                "{}"
                ).format(csv_url)
     return jsonify({'air_data_csv_file': message}), 200
-    '''
+
 
     try:
         return send_from_directory(app.config["CLIENT_CSVS"],

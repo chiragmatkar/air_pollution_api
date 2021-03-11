@@ -4,7 +4,6 @@ from flask import send_file, send_from_directory, safe_join, abort
 from models import Air, AirSchema
 from datetime import time, datetime, timedelta
 
-
 zipcode = Blueprint("zipcode",__name__,static_folder="static",template_folder="templates")
 
 

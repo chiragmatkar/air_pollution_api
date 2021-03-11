@@ -7,11 +7,11 @@ from flask import Flask
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-print ("BBBBBBBBBBBBBB")
-print ("BBBBBBBBBBBBBB")
+
+print ("----------------------")
 print (basedir)
-print ("BBBBBBBBBBBBBB")
-print ("BBBBBBBBBBBBBB")
+print ("---------------------")
+
 
 # reate_engine('sqlite:///{}'.format(xxx), connect_args={'timeout': 15})
 
