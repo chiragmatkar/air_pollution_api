@@ -3,6 +3,7 @@ from datetime import date, datetime, timedelta
 from apps.graph import timeseries_graphs
 from models import Air, AirSchema
 from variables.variables import *
+from calculate_on_ref_Ro import *
 
 def timeseries_data(zipcode):
     graphs = timeseries_graphs(zipcode)
