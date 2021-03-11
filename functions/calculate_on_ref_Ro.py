@@ -1,5 +1,6 @@
 import datetime
-
+import math
+import numpy as np
 
 def calculate_on_ref_Ro(sensor_raw, sensor_RL, sensor_ref_Ro, sensor_curve):
     sensor_rs = MQResistanceCalculation(sensor_raw, sensor_RL)

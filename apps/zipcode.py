@@ -2,6 +2,8 @@ from flask import Blueprint, render_template , request , jsonify
 from config import app
 from flask import send_file, send_from_directory, safe_join, abort
 from models import Air, AirSchema
+from datetime import time, datetime, timedelta
+
 
 zipcode = Blueprint("zipcode",__name__,static_folder="static",template_folder="templates")
 
@@ -62,24 +64,6 @@ def data_by_zipcode(zipcode):
         return jsonify({'airs': output}), 200
         return jsonify({'airs': output}), 200
 
-
-
-##@app.before_request
-@app.route('/api/air/zipcodes', methods=['GET'])
-def zipcodes_data():
-    rows = Air.query.with_entities(Air.zipcode).distinct(Air.zipcode)
-
-    all_rows = []
-    for row in rows.all():
-        all_rows.append(row)
-    # all_rows = list(flatten(all_rows))
-    # all_rows = ['94305', '95014', '96150']
-    # all_rows = ['94305', '95014', '94720', '96150']
-    # all_rows = ['94305', '95014', '94720', '95136']
-    # all_rows = ['94305', '95014', '94720', '96150', '95064']
-    all_rows = ['95014']
-    return jsonify(all_rows), 200
-    # return jsonify({'zipcodes': all_rows}), 200
 
 
 
