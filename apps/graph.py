@@ -1,8 +1,13 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 from config import app
-from flask import send_file, send_from_directory, safe_join, abort
+
 graph = Blueprint("graph",__name__,static_folder="static",template_folder="templates")
-from vars import *
+from variables.variables import *
+from datetime import time, datetime, timedelta
+from models import Air
+import json
+import pandas as pd
+from functions.timeseries import plot_timeseries
 
 
 @graph.route('/api/air/zipcode/<zipcode>/timeseries/graphs', methods=['GET'])

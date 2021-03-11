@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, render_template, request , Blueprint
-from apps import air ,atmosome,country,date_air,download,graph,timeseries_csv,zipcode
+from flask import Flask
+from apps import air_route ,atmosome,country,date_air,download,graph,timeseries_csv,zipcode
 import matplotlib
 print("Switched to:", matplotlib.get_backend())
 
@@ -7,17 +7,16 @@ print("Switched to:", matplotlib.get_backend())
 print("P1")
 # ----------
 # app = connexion.FlaskApp(__name__, specification_dir='./')  # or e.g. Flask(__name__, template_folder='../otherdir')
-from config import app
 
 app = Flask(__name__)
-app.register_blueprint(air)
-app.register_blueprint(atmosome)
-app.register_blueprint(country)
-app.register_blueprint(date_air)
-app.register_blueprint(download)
-app.register_blueprint(graph)
-app.register_blueprint(timeseries_csv)
-app.register_blueprint(zipcode)
+app.register_blueprint(air_route.air)
+app.register_blueprint(atmosome.atmosome)
+app.register_blueprint(country.country)
+app.register_blueprint(date_air.date)
+app.register_blueprint(download.download)
+app.register_blueprint(graph.graph)
+app.register_blueprint(timeseries_csv.timeseries_csv)
+app.register_blueprint(zipcode.zipcode)
 app.run(host="0.0.0.0", port=8080)
 # Talisman(app)
 

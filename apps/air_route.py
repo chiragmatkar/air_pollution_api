@@ -1,6 +1,6 @@
 from flask import Blueprint ,request,jsonify ,send_from_directory , abort
 from functions import calculate_on_ref_Ro
-from vars import *
+from variables.variables import *
 from models import Air, AirSchema
 from functions.calculate_on_ref_Ro import create_datetime_obj
 from config import db
