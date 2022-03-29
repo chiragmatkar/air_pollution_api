@@ -10,3 +10,7 @@
 
 ## Run this app
   python main.py
+
+
+## Deploying this App
+  deployment on Heroku cloud
