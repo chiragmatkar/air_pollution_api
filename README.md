@@ -2,10 +2,11 @@
 # FLASK AIR POLLUTION REST API
 
 ## Migrate the databse before running app
-  flask db init - to initialize the database. 
-  flask db migrate - to migrate new changes. 
-  flask db upgrade - to upgrade and so on.  
-
+```
+flask db init 
+flask db migrate 
+flask db upgrade
+```
 
 
 ## Run this app
